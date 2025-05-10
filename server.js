@@ -44,3 +44,18 @@ function addMessage(res, req){
     res.writeHead(302, {Location: '/'});
     res.end();
 }
+
+
+const {Server} = require("socket.io");
+const io = new Server(server);
+
+io.on('connection', (socket) =>{
+    console.log("user conn. id = "+ socket.id);
+
+
+    socket.on('new_message', (message)=>{
+        console.log(message);
+        io.emit('message', message);
+    });
+});
+
