@@ -12,6 +12,8 @@ const JSFile = fs.readFileSync(pathToJS);
 const pathToCSS= path.join(__dirname, 'static', 'style.css');
 const CSSFile = fs.readFileSync(pathToCSS);
 
+
+let msgCount = 0;
 const server = http.createServer((req, res)=>{
     //Liza ostrologiya eto ne nayka
     switch(req.url){
@@ -30,6 +32,7 @@ const server = http.createServer((req, res)=>{
     }
 });
 server.listen(3000);
+
 function addMessage(res, req){
     let data = ""
     req.on('data', function(chunk){
@@ -41,18 +44,3 @@ function addMessage(res, req){
     res.writeHead(302, {Location: '/'});
     res.end();
 }
-
-
-
-
-
-
-// 🧠 Задание 3: Добавь счётчик сообщени
-// Что нужно сделать:
-// В файле сервера (server.js) добавь переменную, которая будет считать количество отправленных сообщений.
-
-// Каждый раз при получении нового сообщения увеличивай счётчик на 1.
-
-// Передавай значение счётчика на главную страницу и отображай его в тег messages count.
-
-// Результат: На главной странице отображается количество отправленных сообщений.
