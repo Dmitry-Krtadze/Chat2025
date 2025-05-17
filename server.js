@@ -1,6 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const db = require('./database');
+
 
 const pathToIndex = path.join(__dirname, 'static', 'index.html');
 const indexHtmlFile = fs.readFileSync(pathToIndex);
@@ -49,13 +51,14 @@ function addMessage(res, req){
 const {Server} = require("socket.io");
 const io = new Server(server);
 
-io.on('connection', (socket) =>{
+io.on('connection', async (socket) =>{
     console.log("user conn. id = "+ socket.id);
-
+    let userNickname = 'admin';
+    let message = await db.getMessages();
 
     socket.on('new_message', (message)=>{
-        console.log(message);
-        io.emit('message', message);
+        db.addMessage(message, 1);
+        io.emit('message',userNickname + " : " + message);
     });
 });
 
